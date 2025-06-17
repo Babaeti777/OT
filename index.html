@@ -11,7 +11,12 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://apis.google.com/js/api.js" async defer></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; }
+        html {
+            scroll-behavior: smooth;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
         .quadrant-1-border { border-color: #ef4444 !important; }
         .quadrant-2-border { border-color: #3b82f6 !important; }
         .quadrant-3-border { border-color: #f97316 !important; }
@@ -24,13 +29,20 @@
         .quadrant-2-bg { background-color: #3b82f6 !important; }
         .quadrant-3-bg { background-color: #f97316 !important; }
         .quadrant-4-bg { background-color: #6b7280 !important; }
+        
         .task.overdue { background-color: #fef2f2; border-left-color: #ef4444; }
+        .dark .task.overdue { background-color: #4c1d1d; border-left-color: #ef4444; }
+        
         .task.running { box-shadow: 0 0 0 2px #3b82f6; background-color: #dbeafe; }
+        .dark .task.running { box-shadow: 0 0 0 2px #60a5fa; background-color: #1e3a8a; }
+
         .drag-over { transform: scale(1.02); background-color: #eff6ff; }
+        .dark .drag-over { background-color: #1e293b; }
         .task.dragging { opacity: 0.5; }
         .modal { transition: opacity 0.25s ease; }
         .modal-content { transition: transform 0.25s ease; }
         .task-title-input { width: 100%; padding: 2px; border-radius: 4px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; }
+        .dark .task-title-input { background-color: #374151; border-color: #4b5563; color: #e5e7eb; }
         .task-title-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); }
         .spinner { border-top-color: #ffffff; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -54,29 +66,29 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-200">
+<body class="bg-gray-100 dark:bg-gray-900">
 
-    <div id="configWarning" class="hidden px-4 py-3 text-sm font-medium text-center text-red-800 bg-red-100 border-b-2 border-red-200"></div>
+    <div id="configWarning" class="hidden px-4 py-3 text-sm font-medium text-center text-red-800 bg-red-100 border-b-2 border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-700"></div>
     
     <div id="main-content">
         <div class="min-h-screen p-4 mx-auto max-w-7xl sm:p-6 lg:p-8">
             <header class="mb-8 text-center">
-                <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">Eisenhower Matrix</h1>
-                <p class="mt-2 text-lg text-gray-600">AI-Powered Task Management.</p>
+                <h1 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-gray-100">Eisenhower Matrix</h1>
+                <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">AI-Powered Task Management.</p>
                 <div id="authSection" class="flex items-center justify-center min-h-[40px] mt-6"></div>
             </header>
             <div class="grid grid-cols-1 gap-6 mb-8 lg:grid-cols-3">
-                <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-lg lg:col-span-2">
-                    <h2 class="text-lg font-semibold text-gray-800">Add a New Task</h2>
+                <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700 lg:col-span-2">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Add a New Task</h2>
                      <form id="addTaskForm" class="mt-4" onsubmit="TaskManager.addTask(event)">
                         <div class="mb-4">
-                            <label for="taskTitle" class="text-sm font-medium text-gray-600">Task Title</label>
-                            <input type="text" id="taskTitle" placeholder="e.g., Finish project proposal" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            <label for="taskTitle" class="text-sm font-medium text-gray-600 dark:text-gray-400">Task Title</label>
+                            <input type="text" id="taskTitle" placeholder="e.g., Finish project proposal" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
                         </div>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             <div>
-                                <label for="taskQuadrant" class="text-sm font-medium text-gray-600">Priority</label>
-                                <select id="taskQuadrant" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <label for="taskQuadrant" class="text-sm font-medium text-gray-600 dark:text-gray-400">Priority</label>
+                                <select id="taskQuadrant" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                     <option value="1">🔥 Urgent & Important</option>
                                     <option value="2" selected>📅 Important</option>
                                     <option value="3">⚡ Urgent</option>
@@ -84,42 +96,49 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="taskTime" class="text-sm font-medium text-gray-600">Est. Minutes</label>
-                                <input type="number" id="taskTime" value="25" min="5" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <label for="taskTime" class="text-sm font-medium text-gray-600 dark:text-gray-400">Est. Minutes</label>
+                                <input type="number" id="taskTime" value="25" min="5" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             </div>
                             <div>
-                                <label for="taskDueDate" class="text-sm font-medium text-gray-600">Due Date</label>
-                                <input type="date" id="taskDueDate" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <label for="taskDueDate" class="text-sm font-medium text-gray-600 dark:text-gray-400">Due Date</label>
+                                <input type="date" id="taskDueDate" class="w-full px-4 py-2 mt-1 text-gray-800 bg-gray-100 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             </div>
                         </div>
                         <button type="submit" class="w-full px-6 py-3 mt-6 font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Add Task</button>
                     </form>
                 </div>
-                <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-lg">
-                     <h2 class="text-lg font-semibold text-gray-800">Options</h2>
+                <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                     <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Options</h2>
                      <div class="mt-4 space-y-4">
-                         <label class="flex items-center justify-between p-4 bg-gray-100 rounded-lg cursor-pointer">
-                            <span class="font-medium text-gray-700">Hide Completed Tasks</span>
+                         <label class="flex items-center justify-between p-4 bg-gray-100 rounded-lg cursor-pointer dark:bg-gray-700">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">Hide Completed</span>
                             <div class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" id="hideCompleted" class="sr-only peer" onchange="TaskManager.render()">
-                                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-600 peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </div>
+                        </label>
+                        <label class="flex items-center justify-between p-4 bg-gray-100 rounded-lg cursor-pointer dark:bg-gray-700">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">Dark Mode</span>
+                            <div class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="darkModeToggle" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-600 peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                             </div>
                         </label>
                      </div>
                 </div>
             </div>
             <main class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-                <div class="quadrant quadrant-1 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg" data-quadrant="1" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
-                    <div class="flex items-center justify-between p-4 border-b border-gray-200"><h3 class="text-lg font-bold quadrant-1-text">🔥 Urgent & Important (Do)</h3><div id="count-1" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-1-bg">0</div></div><div id="tasks-1" class="p-4 space-y-3"></div>
+                <div class="quadrant quadrant-1 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700" data-quadrant="1" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"><h3 class="text-lg font-bold quadrant-1-text">🔥 Urgent & Important (Do)</h3><div id="count-1" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-1-bg">0</div></div><div id="tasks-1" class="p-4 space-y-3"></div>
                 </div>
-                <div class="quadrant quadrant-2 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg" data-quadrant="2" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
-                    <div class="flex items-center justify-between p-4 border-b border-gray-200"><h3 class="text-lg font-bold quadrant-2-text">📅 Important (Schedule)</h3><div id="count-2" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-2-bg">0</div></div><div id="tasks-2" class="p-4 space-y-3"></div>
+                <div class="quadrant quadrant-2 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700" data-quadrant="2" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"><h3 class="text-lg font-bold quadrant-2-text">📅 Important (Schedule)</h3><div id="count-2" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-2-bg">0</div></div><div id="tasks-2" class="p-4 space-y-3"></div>
                 </div>
-                <div class="quadrant quadrant-3 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg" data-quadrant="3" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
-                    <div class="flex items-center justify-between p-4 border-b border-gray-200"><h3 class="text-lg font-bold quadrant-3-text">⚡ Urgent (Delegate)</h3><div id="count-3" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-3-bg">0</div></div><div id="tasks-3" class="p-4 space-y-3"></div>
+                <div class="quadrant quadrant-3 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700" data-quadrant="3" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"><h3 class="text-lg font-bold quadrant-3-text">⚡ Urgent (Delegate)</h3><div id="count-3" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-3-bg">0</div></div><div id="tasks-3" class="p-4 space-y-3"></div>
                 </div>
-                <div class="quadrant quadrant-4 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg" data-quadrant="4" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
-                    <div class="flex items-center justify-between p-4 border-b border-gray-200"><h3 class="text-lg font-bold quadrant-4-text">🗑️ Neither (Eliminate)</h3><div id="count-4" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-4-bg">0</div></div><div id="tasks-4" class="p-4 space-y-3"></div>
+                <div class="quadrant quadrant-4 bg-white border-t-4 border-gray-200 rounded-2xl shadow-lg dark:bg-gray-800 dark:border-gray-700" data-quadrant="4" ondrop="TaskManager.drop(event)" ondragover="TaskManager.allowDrop(event)" ondragleave="TaskManager.dragLeave(event)">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"><h3 class="text-lg font-bold quadrant-4-text">🗑️ Neither (Eliminate)</h3><div id="count-4" class="px-3 py-1 text-sm font-bold text-white rounded-full quadrant-4-bg">0</div></div><div id="tasks-4" class="p-4 space-y-3"></div>
                 </div>
             </main>
         </div>
@@ -140,15 +159,15 @@
 
 
     <div id="detailsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 bg-black bg-opacity-50 opacity-0 pointer-events-none modal">
-        <div class="w-full max-w-lg p-6 bg-white modal-content rounded-2xl shadow-2xl scale-95 transform-gpu transition-transform duration-300">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-200">
-                <h3 id="detailsTitle" class="text-2xl font-bold text-gray-800">Task Details</h3>
-                <button onclick="UI.closeDetailsModal()" class="p-1 text-gray-400 rounded-full hover:bg-gray-200 hover:text-gray-600">&times;</button>
+        <div class="w-full max-w-lg p-6 bg-white modal-content rounded-2xl shadow-2xl dark:bg-gray-800 dark:border dark:border-gray-700 scale-95 transform-gpu transition-transform duration-300">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-700">
+                <h3 id="detailsTitle" class="text-2xl font-bold text-gray-800 dark:text-gray-100">Task Details</h3>
+                <button onclick="UI.closeDetailsModal()" class="p-1 text-gray-400 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-600">&times;</button>
             </div>
             <div class="mt-4">
                 <div class="mb-4">
                     <div class="flex items-center justify-between">
-                        <h4 class="font-semibold text-gray-700">Sub-tasks</h4>
+                        <h4 class="font-semibold text-gray-700 dark:text-gray-300">Sub-tasks</h4>
                         <button id="generateSubtasksBtn" onclick="GeminiService.generateSubtasks()" class="flex items-center gap-1 px-2 py-1 text-xs font-semibold text-white bg-purple-500 rounded-md hover:bg-purple-600">
                             <span class="btn-text">✨ Smart Sub-tasks</span>
                             <div class="hidden w-4 h-4 border-2 border-t-transparent border-white rounded-full spinner"></div>
@@ -156,30 +175,67 @@
                     </div>
                     <div id="subtasksContainer" class="mt-2 space-y-2"></div>
                     <div class="flex gap-2 mt-2">
-                        <input type="text" id="newSubtaskInput" placeholder="Add a new sub-task..." class="flex-grow px-3 py-1 bg-gray-100 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" id="newSubtaskInput" placeholder="Add a new sub-task..." class="flex-grow px-3 py-1 bg-gray-100 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         <button onclick="TaskManager.addSubtask()" class="px-3 py-1 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600">Add</button>
                     </div>
                 </div>
                 <div>
                      <div class="flex items-center justify-between">
-                        <h4 class="font-semibold text-gray-700">Notes</h4>
+                        <h4 class="font-semibold text-gray-700 dark:text-gray-300">Notes</h4>
                         <button id="generateNotesBtn" onclick="GeminiService.generateNotes()" class="flex items-center gap-1 px-2 py-1 text-xs font-semibold text-white bg-purple-500 rounded-md hover:bg-purple-600">
                              <span class="btn-text">✨ Generate Notes</span>
                              <div class="hidden w-4 h-4 border-2 border-t-transparent border-white rounded-full spinner"></div>
                         </button>
                     </div>
-                    <textarea id="taskNotes" rows="4" class="w-full p-2 mt-2 bg-gray-100 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Add any notes here..."></textarea>
+                    <textarea id="taskNotes" rows="4" class="w-full p-2 mt-2 bg-gray-100 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Add any notes here..."></textarea>
                 </div>
             </div>
              <div class="flex justify-end mt-6">
-                <button onclick="UI.closeDetailsModal()" class="px-6 py-2 font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">Done</button>
+                <button onclick="UI.closeDetailsModal()" class="px-6 py-2 font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500">Done</button>
             </div>
         </div>
     </div>
     
     <script>
+    // --- APP INITIALIZATION --- //
+    document.addEventListener('DOMContentLoaded', () => {
+        App.init();
+    });
+
+    const App = {
+        init() {
+            ThemeManager.init();
+            TaskManager.init();
+            GoogleService.init();
+        }
+    };
+    
+    // --- THEME MANAGER --- //
+    const ThemeManager = {
+        init() {
+            this.toggle = document.getElementById('darkModeToggle');
+            this.toggle.addEventListener('change', this.toggleTheme.bind(this));
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                this.toggle.checked = true;
+            } else {
+                document.documentElement.classList.remove('dark');
+                this.toggle.checked = false;
+            }
+        },
+        toggleTheme() {
+            if (this.toggle.checked) {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            }
+        }
+    };
+
     // --- CONFIGURATION --- //
-    const GOOGLE_CLIENT_ID = "434910578368-6ura496r68hb9onic2osm71c9es9ap8p.apps.googleusercontent.com";
+    const GOOGLE_CLIENT_ID = "YOUR_CLIENT_ID.apps.googleusercontent.com";
     let GEMINI_API_KEY = "";
     
     // --- GEMINI AI SERVICE --- //
@@ -383,7 +439,7 @@
             document.getElementById('authSection').innerHTML = `<button class="inline-flex items-center justify-center gap-2 px-4 py-2 font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700" onclick="GoogleService.signIn()"><svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.19,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.19,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.19,22C17.6,22 21.54,18.33 21.54,12.25C21.54,11.66 21.48,11.38 21.35,11.1Z"></path></svg> Sign in with Google</button>`;
         },
         updateUIAfterLogin() {
-             document.getElementById('authSection').innerHTML = `<div class="flex items-center gap-3"><img src="${this.userProfile.picture}" alt="User" class="w-10 h-10 border-2 border-white rounded-full shadow-md"><span class="font-semibold text-gray-800">${this.userProfile.name}</span><button class="px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-200" onclick="GoogleService.signOut()">Sign Out</button></div>`;
+             document.getElementById('authSection').innerHTML = `<div class="flex items-center gap-3"><img src="${this.userProfile.picture}" alt="User" class="w-10 h-10 border-2 border-white rounded-full shadow-md"><span class="font-semibold text-gray-800 dark:text-gray-200">${this.userProfile.name}</span><button class="px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" onclick="GoogleService.signOut()">Sign Out</button></div>`;
         },
         decodeJwt(token) { try { return JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (e) { console.error('Error decoding JWT', e); return null; } }
     };
@@ -481,9 +537,9 @@
             
             const subtasksContainer = document.getElementById('subtasksContainer');
             subtasksContainer.innerHTML = (task.subtasks || []).map(st => `
-                <div class="flex items-center gap-2 p-2 bg-gray-100 rounded-md">
-                    <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="TaskManager.toggleSubtask(${st.id})" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                    <span class="flex-grow ${st.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${st.text}</span>
+                <div class="flex items-center gap-2 p-2 bg-gray-100 rounded-md dark:bg-gray-700">
+                    <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="TaskManager.toggleSubtask(${st.id})" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-900 dark:border-gray-600">
+                    <span class="flex-grow ${st.completed ? 'line-through text-gray-500' : 'text-gray-800 dark:text-gray-300'}">${st.text}</span>
                     <button onclick="TaskManager.deleteSubtask(${st.id})" class="text-xs text-red-500 hover:text-red-700">Delete</button>
                 </div>
             `).join('') || '<p class="text-sm text-center text-gray-500">No sub-tasks yet.</p>';
@@ -505,7 +561,7 @@
              const warningDiv = document.getElementById('configWarning');
              warningDiv.innerHTML = message;
              warningDiv.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
-             warningDiv.classList.add(type === 'success' ? 'bg-green-100' : 'bg-green-800', type === 'success' ? 'text-green-800' : 'text-red-800');
+             warningDiv.classList.add(type === 'success' ? 'bg-green-100' : 'bg-green-800', type === 'success' ? 'text-green-800' : 'text-red-800', 'dark:bg-opacity-20');
              setTimeout(() => {
                 warningDiv.classList.add('hidden');
              }, 5000)
@@ -514,13 +570,17 @@
     
     // --- TASK MANAGER --- //
     const TaskManager = {
-        tasks: JSON.parse(localStorage.getItem('tasks')) || [],
-        idCounter: parseInt(localStorage.getItem('idCounter')) || 1,
+        tasks: [],
+        idCounter: 1,
         editingTaskId: null,
         init() {
             GEMINI_API_KEY = localStorage.getItem('geminiApiKey') || '';
-            GoogleService.init();
+            this.loadTasks();
             this.render();
+        },
+        loadTasks() {
+            this.tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            this.idCounter = parseInt(localStorage.getItem('idCounter')) || (this.tasks.length > 0 ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1);
         },
         addTask(event) {
             event.preventDefault();
@@ -646,7 +706,7 @@
                 let quadrantTasks = this.tasks.filter(t => t.quadrant == i);
                 if (hideCompleted) { quadrantTasks = quadrantTasks.filter(t => !t.completed); }
                 document.getElementById(`count-${i}`).textContent = quadrantTasks.length;
-                if (quadrantTasks.length === 0) { container.innerHTML = `<div class="p-4 text-center text-gray-500">No tasks here.</div>`; continue; }
+                if (quadrantTasks.length === 0) { container.innerHTML = `<div class="p-4 text-center text-gray-500 dark:text-gray-400">No tasks here.</div>`; continue; }
                 container.innerHTML = quadrantTasks.map(task => {
                     const isRunning = Timer.currentTask && Timer.currentTask.id === task.id;
                     const isOverdue = task.dueDate && !task.completed && new Date(task.dueDate) < new Date();
@@ -655,32 +715,31 @@
                         ? `<input type="text" class="task-title-input" data-task-id="${task.id}" value="${task.title}" 
                                   onblur="TaskManager.saveTaskTitle(${task.id}, this.value)" 
                                   onkeydown="if(event.key === 'Enter') this.blur(); if(event.key === 'Escape') TaskManager.editTask(null)">`
-                        : `<p class="font-semibold text-gray-800 truncate task-title-text" onclick="event.stopPropagation(); TaskManager.editTask(${task.id})">${task.title}</p>`;
+                        : `<p class="font-semibold text-gray-800 truncate dark:text-gray-200 task-title-text" onclick="event.stopPropagation(); TaskManager.editTask(${task.id})">${task.title}</p>`;
                     
                     return `
-                    <div class="task flex items-center justify-between p-3 transition duration-200 ease-in-out bg-white border-l-4 rounded-lg shadow-sm ${task.completed ? 'completed opacity-60' : ''} ${isRunning ? 'running' : ''} ${isOverdue ? 'overdue' : ''} quadrant-${task.quadrant}-border" 
+                    <div class="task flex items-center justify-between p-3 transition duration-200 ease-in-out bg-white border-l-4 rounded-lg shadow-sm dark:bg-gray-700 ${task.completed ? 'completed opacity-60' : ''} ${isRunning ? 'running' : ''} ${isOverdue ? 'overdue' : ''} quadrant-${task.quadrant}-border" 
                          draggable="true" ondragstart="TaskManager.dragStart(event, ${task.id})" ondragend="TaskManager.dragEnd(event)">
                         <div class="flex-1 min-w-0 task-title">
                            ${titleDisplay}
-                           <div class="flex items-center gap-3 mt-1 text-xs text-gray-500 task-meta">
+                           <div class="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400 task-meta">
                                 ${task.dueDate ? `<span>📅 ${new Date(task.dueDate).toLocaleDateString()}</span>` : ''}
                                 <span>⏱️ ${task.timeBox}m</span>
                            </div>
                         </div>
                         <div class="flex items-center gap-1 ml-2 task-actions">
-                             <button title="Start Timer" onclick="event.stopPropagation(); Timer.startFromTask(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 hover:text-yellow-500">⏱️</button>
-                             <button title="Details" onclick="event.stopPropagation(); UI.openDetailsModal(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 hover:text-blue-500">📝</button>
-                             <button title="Add to Google Calendar" onclick='event.stopPropagation(); GoogleService.addToCalendar(${JSON.stringify(task)})' ${!GoogleService.isLoggedIn ? 'disabled' : ''} class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 hover:text-blue-500">📅</button>
-                             <button title="Add to Google Tasks" onclick='event.stopPropagation(); GoogleService.addToTasks(${JSON.stringify(task)})' ${!GoogleService.isLoggedIn ? 'disabled' : ''} class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 hover:text-green-500">✔️</button>
-                            <button title="Mark as ${task.completed ? 'Incomplete' : 'Complete'}" onclick="TaskManager.toggleComplete(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200">${task.completed ? '↩️' : '✅'}</button>
-                            <button title="Delete Task" onclick="TaskManager.deleteTask(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 hover:text-red-500">🗑️</button>
+                             <button title="Start Timer" onclick="event.stopPropagation(); Timer.startFromTask(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-yellow-500">⏱️</button>
+                             <button title="Details" onclick="event.stopPropagation(); UI.openDetailsModal(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-blue-500">📝</button>
+                             <button title="Add to Google Calendar" onclick='event.stopPropagation(); GoogleService.addToCalendar(${JSON.stringify(task)})' ${!GoogleService.isLoggedIn ? 'disabled' : ''} class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-blue-500">📅</button>
+                             <button title="Add to Google Tasks" onclick='event.stopPropagation(); GoogleService.addToTasks(${JSON.stringify(task)})' ${!GoogleService.isLoggedIn ? 'disabled' : ''} class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-green-500">✔️</button>
+                            <button title="Mark as ${task.completed ? 'Incomplete' : 'Complete'}" onclick="TaskManager.toggleComplete(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 dark:hover:bg-gray-600">${task.completed ? '↩️' : '✅'}</button>
+                            <button title="Delete Task" onclick="TaskManager.deleteTask(${task.id})" class="p-1 text-gray-400 rounded-full task-btn hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-red-500">🗑️</button>
                         </div>
                     </div>
                 `}).join('');
             }
         },
     };
-    TaskManager.init();
     </script>
 </body>
 </html>
